@@ -1,0 +1,16 @@
+{
+  "name": "videostream",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://git@github.com:CHANDRUK29/video-stream.git",
+  "author": "Chandru K",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
