@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 })
 
+// method 1
 app.get('/videos', (req, res) => {
     try {
         const filePath = './videos/video2.mp4'
@@ -67,68 +68,29 @@ app.get('/videos', (req, res) => {
 
 })
 
-
-
-app.get("/video-stream", function (req, res) {
-    //finding range
-    //from range ==> we have to fetch parts from parts ==> we can get start and end
-    const range = req.headers.range;
-    console.log("range",range)
-    if (!range) {
-        return res.status(400).send("Requires Range header");
-    }
-    const videoPath = './videos/video2.mp4'
-
-    //The fs.statsync()==> function synchronously retrieves information about a file or directory
-    const videoSize = fs.statSync("videos/video1.mp4").size;
-    console.log("videosize",videoSize)
-    const CHUNK_SIZE = 1 * 1e6;
-
-    //usually range will be ==> bytes=200-1000,2000-6576,19000- etc...
-    // we need to remove bytes and get start and end
-    const start = Number(range.replace(/\D/g, ""));
-    console.log("start",start)
-    const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
-    console.log("end",start)
-    const contentLength = end - start + 1;
-    console.log("content length",start)
-    //neccessary header options
-    const headers = {
-        "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-        "Accept-Ranges": "bytes",
-        "Content-Length": contentLength,
-        "Content-Type": "video/mp4",
-    };
-
-    // we are using 206 to say that it is a partial content
-    res.writeHead(206, headers);
-    const videoStream = fs.createReadStream(videoPath, { start, end });
-    videoStream.pipe(res);
-});
-
-
+// method 2
 app.get('/videoplayer', (req, res) => {
     //finding range
     //from range ==> we have to fetch parts from parts ==> we can get start and end
     const range = req.headers.range
-    console.log("range",range)
+    console.log("range", range)
     //mentioning the path of video to be played
     const videoPath = './videos/video2.mp4';
 
     //getting video size and setting chunk size
     //The fs.statsync()==> function synchronously retrieves information about a file or directory
     const videoSize = fs.statSync(videoPath).size
-    console.log("videosize",videoSize)
+    console.log("videosize", videoSize)
     const chunkSize = 1 * 1e6;
 
-     //usually range will be ==> bytes=200-1000,2000-6576,19000- etc...
+    //usually range will be ==> bytes=200-1000,2000-6576,19000- etc...
     // we need to remove bytes and get start and end
     const start = Number(range.replace(/\D/g, ""))
-    console.log("start",start)
+    console.log("start", start)
     const end = Math.min(start + chunkSize, videoSize - 1)
-    console.log("end",start)
+    console.log("end", start)
     const contentLength = end - start + 1;
-    console.log("content length",start)
+    console.log("content length", start)
     //neccessary header options
     const headers = {
         "Content-Range": `bytes ${start}-${end}/${videoSize}`,
