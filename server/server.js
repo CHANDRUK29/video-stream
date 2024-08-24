@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.get('/videos', (req, res) => {
     try {
-        const filePath = './videos/video2.mp4'        // const filePath = 'videos/video2.mp4'
+        const filePath = './videos/video2.mp4'
         if (!filePath) return res.status(404).json({ message: "file not found" })
 
         //The fs.statsync()==> function synchronously retrieves information about a file or directory
